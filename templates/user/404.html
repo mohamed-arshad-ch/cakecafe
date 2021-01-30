@@ -1,0 +1,38 @@
+{% extends 'user/base.html' %}
+
+
+{% block content %}
+<!--Page Title-->
+<section class="page-title centred" style="background-image: url(assets/images/background/page-title.jpg);">
+    <div class="auto-container">
+        <div class="content-box">
+            <div class="title">
+                <h1>Page Not Found</h1>
+            </div>
+            <ul class="bread-crumb clearfix">
+                <li><a href="index-2.html">Home</a></li>
+                <li>404</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+
+
+<!-- error-section -->
+<section class="error-section centred sec-pad">
+    <div class="auto-container">
+        <div class="inner-box">
+            <h1>404</h1>
+            <h2>Oops! Page Not Found!</h2>
+            <h3>{{mainerror}}</h3>
+            <p>Please go back to <a href="index-2.html">Back homepage</a></p>
+            <div class="btn-box">
+                <a href="index-2.html" class="theme-btn-two">Go Back To Home</a>
+                <a href="shop-1.html" class="theme-btn-one">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- error-section end -->
+{% endblock content %}
