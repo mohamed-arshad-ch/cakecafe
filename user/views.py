@@ -50,3 +50,36 @@ class LoginPage(View):
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
+
+
+#Signup For User
+
+class SignupPage(View):
+    #render Signup Page
+    def get(self, request, *args, **kwargs):
+        try:
+            return render(request,'user/register.html')
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+    # Register Post
+    def post(self, request, *args, **kwargs):
+        try:
+            user = CustomUser.objects.create(username=request.POST['username'],first_name=request.POST['firstname'],last_name=request.POST['lastname'],phone_number=request.POST['username'])
+            user.set_password(request.POST['password'])
+            user.save()
+
+            userlogin = authenticate(username=request.POST['username'],password=request.POST['password'])
+
+            if user is not None:
+                auth.login(request, user)
+                    
+                return redirect('landingpage')
+            else:
+                    
+                return redirect('userlogin')
+
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})        
