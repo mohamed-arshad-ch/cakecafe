@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="single-item">
                                     <figure class="image"><a href="shop-details.html"><img
-                                                src="assets/images/resource/shop/product-1.jpg" alt=""></a></figure>
+                                                src="{% static 'user/assets/images/resource/shop/product-1.jpg' %}" alt=""></a></figure>
                                     <div class="item-name clearfix">
                                         <h6><a href="shop-details.html">Coffee Chef</a></h6>
                                         <div class="bye-btn"><a href="shop-details.html">Bye Now</a></div>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="single-item">
                                     <figure class="image"><a href="shop-details.html"><img
-                                                src="assets/images/resource/shop/product-2.jpg" alt=""></a></figure>
+                                                src="{% static 'user/assets/images/resource/shop/product-2.jpg' %}" alt=""></a></figure>
                                     <div class="item-name clearfix">
                                         <h6><a href="shop-details.html">Baking Breads</a></h6>
                                         <div class="bye-btn"><a href="shop-details.html">Bye Now</a></div>
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="single-item">
                                     <figure class="image"><a href="shop-details.html"><img
-                                                src="assets/images/resource/shop/product-3.jpg" alt=""></a></figure>
+                                                src="{% static 'user/assets/images/resource/shop/product-3.jpg' %}" alt=""></a></figure>
                                     <div class="item-name clearfix">
                                         <h6><a href="shop-details.html">Chocolate Cake</a></h6>
                                         <div class="bye-btn"><a href="shop-details.html">Bye Now</a></div>
@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="single-item">
                                     <figure class="image"><a href="shop-details.html"><img
-                                                src="assets/images/resource/shop/product-4.jpg" alt=""></a></figure>
+                                                src="{% static 'user/assets/images/resource/shop/product-4.jpg' %}" alt=""></a></figure>
                                     <div class="item-name clearfix">
                                         <h6><a href="shop-details.html">French Croissants</a></h6>
                                         <div class="bye-btn"><a href="shop-details.html">Bye Now</a></div>
@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="single-item">
                                     <figure class="image"><a href="shop-details.html"><img
-                                                src="assets/images/resource/shop/product-5.jpg" alt=""></a></figure>
+                                                src="{% static 'user/assets/images/resource/shop/product-5.jpg' %}" alt=""></a></figure>
                                     <div class="item-name clearfix">
                                         <h6><a href="shop-details.html">Donuts Cake</a></h6>
                                         <div class="bye-btn"><a href="shop-details.html">Bye Now</a></div>
@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="single-item">
                                     <figure class="image"><a href="shop-details.html"><img
-                                                src="assets/images/resource/shop/product-6.jpg" alt=""></a></figure>
+                                                src="{% static 'user/assets/images/resource/shop/product-6.jpg' %}" alt=""></a></figure>
                                     <div class="item-name clearfix">
                                         <h6><a href="shop-details.html">Ice Crem</a></h6>
                                         <div class="bye-btn"><a href="shop-details.html">Bye Now</a></div>
@@ -167,7 +167,7 @@
             <div class="header-lower">
                 <div class="outer-box">
                     <div class="logo-box">
-                        <figure class="logo"><a href="index-2.html"><img src="assets/images/logo.png" alt=""></a>
+                        <figure class="logo"><a href="index-2.html"><img src="{% static 'user/assets/images/logo.png' %}" alt=""></a>
                         </figure>
                     </div>
                     <div class="menu-area">
@@ -292,7 +292,7 @@
                             </div>
                         </li>
                         <li class="user-btn">
-                            <a href="index-2.html" style="background-image: url(assets/images/icons/icon-bg-1.png);">
+                            <a href="{% url 'userlogin' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Profile"></i>
                             </a>
                         </li>
@@ -504,6 +504,9 @@
 
 
     <!-- jequery plugins -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
     <script src="{% static 'user/assets/js/jquery.js' %}"></script>
     <script src="{% static 'user/assets/js/popper.min.js' %}"></script>
     <script src="{% static 'user/assets/js/bootstrap.min.js' %}"></script>
@@ -519,6 +522,8 @@
 
     <!-- main-js -->
     <script src="{% static 'user/assets/js/script.js' %}"></script>
+    <script src="{% static 'user/assets/js/index.js' %}"></script>
+
 
 </body><!-- End of .page_wrapper -->
 
