@@ -16,7 +16,7 @@ class LandingPage(View):
         try:
             
             product = Products.objects.all()
-            product.delete()
+            
             index = {
                 "products":product
             }
