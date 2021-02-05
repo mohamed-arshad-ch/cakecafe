@@ -143,4 +143,14 @@ class VerifyEmail(View):
         except CustomUser.DoesNotExist:
             return redirect("resetpassword")
 
-    
+class ProductDetails(View):
+    def get (self,request,id):
+        try:
+            product = Products.objects.get(id=id)
+            index = {
+                "products":product
+            }
+            return render(request,'user/product-details.html',index)
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
