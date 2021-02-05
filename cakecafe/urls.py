@@ -8,6 +8,10 @@ urlpatterns = [
     
     #User Root Url
 
-    path('',include('user.urls'))
+    path('',include('user.urls')),
+
+    #Admin Root Url
+    path('mainadmin',include('mainadmin.urls')),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

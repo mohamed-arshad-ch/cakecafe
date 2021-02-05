@@ -1,5 +1,5 @@
 {% extends 'user/base.html' %}
-
+{% load static %}
 
 {% block content %}
 
@@ -9,13 +9,13 @@
     <section class="banner-section style-one">
         <div class="banner-carousel owl-theme owl-carousel owl-dots-none nav-style-one">
             <div class="slide-item">
-                <div class="image-layer" style="background-image:url(assets/images/banner/banner-1.jpg)"></div>
+                <div class="image-layer" style="background-image:url({% static 'user/assets/images/banner/banner-1.jpg' %})"></div>
                 <div class="anim-icon">
-                    <div class="icon icon-1" style="background-image: url(assets/images/icons/anim-icon-1.png);"></div>
-                    <div class="icon icon-2" style="background-image: url(assets/images/icons/anim-icon-2.png);"></div>
-                    <div class="icon icon-3" style="background-image: url(assets/images/icons/anim-icon-3.png);"></div>
-                    <div class="icon icon-4" style="background-image: url(assets/images/shape/shape-1.png);"></div>
-                    <div class="icon icon-5" style="background-image: url(assets/images/shape/shape-2.png);"></div>
+                    <div class="icon icon-1" style="background-image: url({% static 'user/assets/images/icons/anim-icon-1.png' %});"></div>
+                    <div class="icon icon-2" style="background-image: url({% static 'user/assets/images/icons/anim-icon-2.png' %});"></div>
+                    <div class="icon icon-3" style="background-image: url({% static 'user/assets/images/icons/anim-icon-3.png' %});"></div>
+                    <div class="icon icon-4" style="background-image: url({% static 'user/assets/images/shape/shape-1.png' %});"></div>
+                    <div class="icon icon-5" style="background-image: url({% static 'user/assets/images/shape/shape-2.png' %});"></div>
                 </div>
                 <div class="auto-container">
                     <div class="content-inner">
@@ -27,17 +27,17 @@
                             </div>
                         </div>
                         <figure class="image-box style-one">
-                            <img src="assets/images/banner/banner-image-1.png" alt="">
+                            <img src="{% static 'user/assets/images/banner/banner-image-1.png' %}" alt="">
                         </figure>
                     </div>  
                 </div>
-            </div>
+            </div> 
             <div class="slide-item">
-                <div class="image-layer" style="background-image:url(assets/images/banner/banner-2.jpg)"></div>
+                <div class="image-layer" style="background-image:url({% static 'user/assets/images/banner/banner-2.jpg' %})"></div>
                 <div class="anim-icon">
-                    <div class="icon icon-4" style="background-image: url(assets/images/shape/shape-1.png);"></div>
-                    <div class="icon icon-5" style="background-image: url(assets/images/shape/shape-2.png);"></div>
-                    <div class="icon icon-6 rotate-me" style="background-image: url(assets/images/shape/shape-3.png);"></div>
+                    <div class="icon icon-4" style="background-image: url({% static 'user/assets/images/shape/shape-1.png' %});"></div>
+                    <div class="icon icon-5" style="background-image: url({% static 'user/assets/images/shape/shape-2.png' %});"></div>
+                    <div class="icon icon-6 rotate-me" style="background-image: url({% static 'user/assets/images/shape/shape-3.png' %});"></div>
                 </div>
                 <div class="auto-container">
                     <div class="content-inner">
@@ -48,7 +48,7 @@
                                 <a href="index-2.html" class="banner-btn">Explore Now</a>
                             </div>
                         </div>
-                        <figure class="image-box style-two"><img src="assets/images/banner/banner-image-2.png" alt=""></figure>
+                        <figure class="image-box style-two"><img src="{% static 'user/assets/images/banner/banner-image-2.png' %}" alt=""></figure>
                     </div>  
                 </div>
             </div>
@@ -70,7 +70,7 @@
                                 <a href="index-2.html" class="banner-btn">Explore Now</a>
                             </div>
                         </div>
-                        <figure class="image-box style-one"><img src="assets/images/banner/banner-image-3.png" alt=""></figure>
+                        <figure class="image-box style-one"><img src="{% static 'user/assets/images/banner/banner-image-3.png' %}" alt=""></figure>
                     </div>  
                 </div>
             </div>
@@ -141,7 +141,7 @@
                         <div class="content-box">
                             <h3>About Bagery</h3>
                             <p>Excepteur sint occaecat cupidat non proident sunt in culpa qui officia deserunt mollit anim est laborum. magni dolores eos  ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non  aliquam quaerat voluptatem.</p>
-                            <figure class="signature"><img src="assets/images/icons/signature-1.png" alt=""></figure>
+                            <figure class="signature"><img src="{% static 'user/assets/images/icons/signature-1.png' %}" alt=""></figure>
                         </div>
                     </div>
                 </div>
@@ -178,14 +178,16 @@
                 <h2>Our all Delicious <br />Products.</h2>
             </div>
             <div class="four-item-carousel owl-carousel owl-theme owl-dots-none nav-style-one">
+                
+                {% for product in products %}
                 <div class="shop-block-one">
                     <div class="inner-box">
-                        <figure class="image-box">
-                            <img src="assets/images/resource/shop/shop-1.jpg" alt="">
-                        </figure>
+                        
+                            <img width="150" src="{% static 'images' %}/{{product.image}}" alt="">
+                        
                         <div class="lower-content">
-                            <span class="price-box">$100</span>
-                            <h3><a href="shop-details.html">Vanilla Ice Cream</a></h3>
+                            <span class="price-box">${{product.price}}</span>
+                            <h3><a href="shop-details.html">{{product.name}}</a></h3>
                             <ul class="rating clearfix">
                                 <li><i class="icon-Star"></i></li>
                                 <li><i class="icon-Star"></i></li>
@@ -197,63 +199,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="shop-block-one">
-                    <div class="inner-box">
-                        <figure class="image-box">
-                            <img src="assets/images/resource/shop/shop-2.jpg" alt="">
-                        </figure>
-                        <div class="lower-content">
-                            <span class="price-box">$70</span>
-                            <h3><a href="shop-details.html">Slice Super Cake</a></h3>
-                            <ul class="rating clearfix">
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                            </ul>
-                            <div class="cart-btn"><a href="shop-details.html" class="theme-btn-two">Add to cart</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="shop-block-one">
-                    <div class="inner-box">
-                        <figure class="image-box">
-                            <img src="assets/images/resource/shop/shop-3.jpg" alt="">
-                        </figure>
-                        <div class="lower-content">
-                            <span class="price-box">$80</span>
-                            <h3><a href="shop-details.html">Cone Ice Cream</a></h3>
-                            <ul class="rating clearfix">
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                            </ul>
-                            <div class="cart-btn"><a href="shop-details.html" class="theme-btn-two">Add to cart</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="shop-block-one">
-                    <div class="inner-box">
-                        <figure class="image-box">
-                            <img src="assets/images/resource/shop/shop-4.jpg" alt="">
-                        </figure>
-                        <div class="lower-content">
-                            <span class="price-box">$120</span>
-                            <h3><a href="shop-details.html">Quality Ice Cream</a></h3>
-                            <ul class="rating clearfix">
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                                <li><i class="icon-Star"></i></li>
-                            </ul>
-                            <div class="cart-btn"><a href="shop-details.html" class="theme-btn-two">Add to cart</a></div>
-                        </div>
-                    </div>
-                </div>
+                
+                {% endfor %}
+                    
             </div>
         </div>
     </section>

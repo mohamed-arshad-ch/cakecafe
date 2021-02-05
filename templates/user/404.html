@@ -1,9 +1,9 @@
 {% extends 'user/base.html' %}
-
+{% load static %}
 
 {% block content %}
 <!--Page Title-->
-<section class="page-title centred" style="background-image: url(assets/images/background/page-title.jpg);">
+<section class="page-title centred" style="background-image: url({% static 'user/assets/images/background/page-title.jpg' %});">
     <div class="auto-container">
         <div class="content-box">
             <div class="title">
@@ -15,6 +15,7 @@
             </ul>
         </div>
     </div>
+    
 </section>
 <!--End Page Title-->
 
