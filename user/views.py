@@ -18,13 +18,22 @@ class LandingPage(View):
         try:
             
             product = Products.objects.all()
-            cartcount = Controller.CartCount(self,request.user)
+            if request.user.is_authenticated:
+                cartcount = Controller.CartCount(self,request.user)
+                index = {
+                    "products":product,
+                    "cartcount":cartcount
+                }
             
-            index = {
-                "products":product,
-                "cartcount":cartcount
-            }
-            return render(request,'user/index.html',index)
+                return render(request,'user/index.html',index)
+            else:
+                index = {
+                    "products":product,
+                    "cartcount":0
+                }
+            
+                return render(request,'user/index.html',index)
+
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
