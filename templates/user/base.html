@@ -45,7 +45,7 @@
 
 
         <!-- preloader -->
-        <div class="loader-wrap">
+        <!-- <div class="loader-wrap">
             <div class="preloader">
                 <div class="preloader-close">Preloader Close</div>
                 <div id="handle-preloader" class="handle-preloader">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- preloader end -->
 
 
@@ -297,9 +297,9 @@
                             </a>
                         </li>
                         <li class="cart-btn">
-                            <a href="shop-1.html" style="background-image: url(assets/images/icons/icon-bg-1.png);">
+                            <a href="{% url 'cart' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Bag"></i>
-                                <span>3</span>
+                                <span id="cart-count">{{cartcount}}</span>
                             </a>
                         </li>
                     </ul>
@@ -345,9 +345,9 @@
                             </a>
                         </li>
                         <li class="cart-btn">
-                            <a href="shop-1.html" style="background-image: url(assets/images/icons/icon-bg-1.png);">
+                            <a href="{% url 'cart' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Bag"></i>
-                                <span>3</span>
+                                <span id="cart-count">{{cartcount}}</span>
                             </a>
                         </li>
                     </ul>
@@ -521,6 +521,7 @@
     <script src="{% static 'user/assets/js/nav-tool.js' %}"></script>
     <script src="{% static 'user/assets/js/jquery-ui.js' %}"></script>
     <script src="{% static 'user/assets/js/bxslider.js' %}"></script>
+    <script src="{% static 'user/assets/js/jquery.bootstrap-touchspin.js' %}"></script>
     <!-- main-js -->
     <script src="{% static 'user/assets/js/index.js' %}"></script>
     <script src="{% static 'user/assets/js/script.js' %}"></script>

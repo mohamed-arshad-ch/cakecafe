@@ -14,5 +14,21 @@ $.getJSON("https://api.ipify.org?format=json",
         })
     })
 
-//get location using ip 
+//add To Cart
+
+const cartButton = document.querySelectorAll("#addtocart");
+
+cartButton.forEach((btns)=>{
+    $(btns).click(()=>{
+        axios.get(`addtocart/${btns.dataset.productid}`).then(res=>{
+            console.log(res.data);
+
+            const cartcount = document.querySelectorAll("#cart-count")
+            cartcount.forEach((newb)=>{
+                $(newb).text(res.data.cartcount)
+            })
+        })
+    })
+})
+
 

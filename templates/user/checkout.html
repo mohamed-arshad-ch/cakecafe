@@ -1,0 +1,211 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block content %}
+
+<!--Page Title-->
+
+<section class="page-title centred"
+    style="background-image: url({% static 'user/assets/images/background/page-title.jpg' %});">
+    <div class="auto-container">
+        <div class="content-box">
+            <div class="title">
+                <h1>Checkout</h1>
+            </div>
+            <ul class="bread-crumb clearfix">
+                <li><a href="index-2.html">Home</a></li>
+                <li>Checkout</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+<!-- checkout-section -->
+<section class="checkout-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 upper-column">
+                <div class="upper-box">
+                    <div class="customer single-box">Returning Customer? <a href="{% url 'userlogin' %}">Click here to
+                            Login</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 left-column">
+                <div class="inner-box">
+                    <div class="billing-info">
+                        <h4 class="sub-title">Billing Details</h4>
+                        <form id="form-address" name="shippingaddress" action="#" method="post" class="billing-form">
+                            <div class="row">
+
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                    <label>Address*</label>
+                                    <div class="field-input">
+                                        <input type="text" id="address1" name="address" class="address">
+                                        <input type="text" id="address2" name="address1">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                    <label>Town/City*</label>
+                                    <div class="field-input">
+                                        <input type="text" id="city" name="town_city">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                    <label>State*</label>
+                                    <div class="field-input">
+                                        <input type="text" id="state" name="town_city">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                    <label>Zip Code*</label>
+                                    <div class="field-input">
+                                        <input type="text" id="zipcode" name="zip">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 right-column">
+                <div class="inner-box">
+                    <div class="order-info">
+                        <h4 class="sub-title">Your Order</h4>
+                        <div class="order-product">
+                            <ul class="order-list clearfix">
+                                <li class="title clearfix">
+                                    <p>Product</p>
+                                    <span>Total</span>
+                                </li>
+
+                                {% for orderitems in orderitem %}
+                                <li>
+                                    <div class="single-box clearfix">
+                                        <img src="{% static 'images' %}/{{orderitems.product.image}}" alt="">
+                                        <h6>{{orderitems.product.name}} x {{orderitems.qty}}</h6>
+                                        <span>₹{{orderitems.subTotal}}.00</span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+
+
+
+                                <li class="sub-total clearfix">
+                                    <h6>Sub Total</h6>
+                                    <span>₹{{totalamount}}.00</span>
+                                </li>
+                                <li class="order-total clearfix">
+                                    <h6>Order Total</h6>
+                                    <span>₹{{totalamount}}.00</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="payment-info">
+                        <h4 class="sub-title">Payment Proccess</h4>
+                        <div class="payment-inner">
+                            <div class="option-block">
+                                <div class="custom-controls-stacked">
+                                    <label class="custom-control material-checkbox">
+                                        <input type="checkbox" class="material-control-input">
+                                        <span class="material-control-indicator"></span>
+                                        <span class="description">Direct bank transfer</span>
+                                    </label>
+                                </div>
+                                <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
+                                    Store Postcode.</p>
+                            </div>
+                            <div class="option-block">
+                                <div class="custom-controls-stacked">
+                                    <label class="custom-control material-checkbox">
+                                        <input type="checkbox" class="material-control-input">
+                                        <span class="material-control-indicator"></span>
+                                        <span class="description">Paypal<a href="checkout.html">What is
+                                                paypal?</a></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="btn-box">
+                                <button id="rzp-button1" class="theme-btn-one">Place Your Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- checkout-section end -->
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "rzp_test_P8Xw2GOwWKYrPA", // Enter the Key ID generated from the Dashboard
+        "amount": "{{totalpayamount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Acme Corp",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{payment}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+            
+            
+            const PaymentDetails = new FormData();
+
+            PaymentDetails.append("paymentid",response.razorpay_payment_id);
+            PaymentDetails.append("address1",$("#address1").val());
+            PaymentDetails.append("address2",$("#address2").val());
+            PaymentDetails.append("city",$("#city").val());
+            PaymentDetails.append("state",$("#state").val());
+            PaymentDetails.append("zipcode",$("#zipcode").val());
+            PaymentDetails.append("amount",options.amount/100);
+
+            
+            axios.post("addpayment",PaymentDetails).then(res=>{
+                console.log(res.data);
+                window.location.replace("/");
+            })
+
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function (e) {
+       if(document.getElementById("address1").value==""){
+            alert("Enter Valid Data")
+       }else{
+        rzp1.open();
+        e.preventDefault();
+       }
+
+
+        
+        
+    }
+</script>
+{% endblock content %}

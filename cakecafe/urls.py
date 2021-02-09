@@ -4,14 +4,14 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('newcommonadmin/', admin.site.urls),
     
     #User Root Url
 
     path('',include('user.urls')),
 
     #Admin Root Url
-    path('mainadmin',include('mainadmin.urls')),
+    path('javas',include('mainadmin.urls')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

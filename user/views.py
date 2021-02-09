@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
+from .controller import *
 from django.views import View
 from django.contrib.auth.models import auth
 from .models import *
@@ -16,9 +18,11 @@ class LandingPage(View):
         try:
             
             product = Products.objects.all()
+            cartcount = Controller.CartCount(self,request.user)
             
             index = {
-                "products":product
+                "products":product,
+                "cartcount":cartcount
             }
             return render(request,'user/index.html',index)
         except Exception as e:
@@ -147,11 +151,86 @@ class VerifyEmail(View):
 class ProductDetails(View):
     def get (self,request,id):
         try:
+            cartcount = Controller.CartCount(self,request.user)
             product = Products.objects.get(id=id)
             index = {
-                "products":product
+                "products":product,
+                "cartcount":cartcount
             }
             return render(request,'user/product-details.html',index)
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+class AddToCart(View):
+    def get(self, request,id):
+        try:
+            if request.user.is_authenticated:
+                
+                product = Products.objects.get(id=id)
+                try:
+                    order = Order.objects.get(customer=request.user,status=False)
+                    orderitem, created = OrderItem.objects.get_or_create(order=order,product=product)
+                    orderitem.qty = orderitem.qty + 1
+                    orderitem.save()
+                    cartcount = Controller.CartCount(self,request.user)
+                    return JsonResponse({"message":str(orderitem.qty),"cartcount":cartcount})
+                except Order.DoesNotExist:
+                    order = Order.objects.create(customer=request.user)
+                    orderitem, created = OrderItem.objects.get_or_create(order=order,product=product)
+                    cartcount = Controller.CartCount(self,request.user)
+                    return JsonResponse({"message":"Cart Added Successfully","carcount":cartcount})
+            else:
+                return JsonResponse({"message":"Please Login"})
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+
+class Cart(View):
+    def get (self,request):
+        try:
+            orderitems = OrderItem.objects.filter(order__customer=request.user,order__status=False)
+            cartcount = Controller.CartCount(self,request.user)
+            totalamount, totalpayamount = Controller.TotalAmount(self,request.user)
+            index = {
+                "orderitem":orderitems,
+                "cartcount":cartcount,
+                "totalamount":totalamount
+            }
+            return render(request,'user/cart.html',index)
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+class Checkout(View):
+    def get (self,request):
+        try:
+            orderitems = OrderItem.objects.filter(order__customer=request.user,order__status=False)
+            cartcount = Controller.CartCount(self,request.user)
+            totalamount,totalpayamount = Controller.TotalAmount(self,request.user)
+            index = {
+                "orderitem":orderitems,
+                "cartcount":cartcount,
+                "totalamount":totalamount,
+                "totalpayamount":totalpayamount
+            }
+            return render(request,'user/checkout.html',index)
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+class AddPayment(View):
+    def post(self,request):
+        try:
+            try:
+                order = Order.objects.get(customer=request.user,status=False)
+                ShippingAddress.objects.create(status=True,order=order,address1=request.POST['address1'],address2=request.POST['address2'],city=request.POST['city'],state=request.POST['state'],zipcode=request.POST['zipcode'],payment_id=request.POST['paymentid'],amount=request.POST['amount'])
+                order.status = True
+                order.save()
+                return JsonResponse({"message":"Success Your Payment"})
+            except Order.DoesNotExist:
+                return JsonResponse({"message":"Technical Issue"})
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
