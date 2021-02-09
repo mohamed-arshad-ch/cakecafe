@@ -160,13 +160,23 @@ class VerifyEmail(View):
 class ProductDetails(View):
     def get (self,request,id):
         try:
-            cartcount = Controller.CartCount(self,request.user)
+            
             product = Products.objects.get(id=id)
-            index = {
-                "products":product,
-                "cartcount":cartcount
-            }
-            return render(request,'user/product-details.html',index)
+            if request.user.is_authenticated:
+
+                cartcount = Controller.CartCount(self,request.user)
+                index = {
+                    "products":product,
+                    "cartcount":cartcount
+                }
+                return render(request,'user/product-details.html',index)
+            else:
+                cartcount = Controller.CartCount(self,request.user)
+                index = {
+                    "products":product,
+                    "cartcount":0
+                }
+                return render(request,'user/product-details.html',index)
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
@@ -199,15 +209,25 @@ class AddToCart(View):
 class Cart(View):
     def get (self,request):
         try:
-            orderitems = OrderItem.objects.filter(order__customer=request.user,order__status=False)
-            cartcount = Controller.CartCount(self,request.user)
-            totalamount, totalpayamount = Controller.TotalAmount(self,request.user)
-            index = {
-                "orderitem":orderitems,
-                "cartcount":cartcount,
-                "totalamount":totalamount
-            }
-            return render(request,'user/cart.html',index)
+            if request.user.is_authenticated:
+
+                orderitems = OrderItem.objects.filter(order__customer=request.user,order__status=False)
+                cartcount = Controller.CartCount(self,request.user)
+                totalamount, totalpayamount = Controller.TotalAmount(self,request.user)
+                index = {
+                    "orderitem":orderitems,
+                    "cartcount":cartcount,
+                    "totalamount":totalamount
+                }
+                return render(request,'user/cart.html',index)
+            else:
+                index = {
+                    
+                    "cartcount":0,
+                    
+                }
+                return render(request,'user/cart.html',index)
+
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
@@ -215,16 +235,20 @@ class Cart(View):
 class Checkout(View):
     def get (self,request):
         try:
-            orderitems = OrderItem.objects.filter(order__customer=request.user,order__status=False)
-            cartcount = Controller.CartCount(self,request.user)
-            totalamount,totalpayamount = Controller.TotalAmount(self,request.user)
-            index = {
-                "orderitem":orderitems,
-                "cartcount":cartcount,
-                "totalamount":totalamount,
-                "totalpayamount":totalpayamount
-            }
-            return render(request,'user/checkout.html',index)
+            if request.user.is_authenticated:
+
+                orderitems = OrderItem.objects.filter(order__customer=request.user,order__status=False)
+                cartcount = Controller.CartCount(self,request.user)
+                totalamount,totalpayamount = Controller.TotalAmount(self,request.user)
+                index = {
+                    "orderitem":orderitems,
+                    "cartcount":cartcount,
+                    "totalamount":totalamount,
+                    "totalpayamount":totalpayamount
+                }
+                return render(request,'user/checkout.html',index)
+            else:
+                return redirect("userlogin")
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
