@@ -143,3 +143,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 django_heroku.settings(locals())
+

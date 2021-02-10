@@ -61,6 +61,7 @@
                                 <th scope="col" class="sort" data-sort="budget">Product Price</th>
                                 <th scope="col" class="sort" data-sort="budget">Product Stock</th>
                                 <th scope="col" class="sort" data-sort="budget">Product Weight</th>
+                                <th scope="col" class="sort" data-sort="budget">Product Category</th>
 
                                 
                                 <th scope="col"></th>
@@ -68,7 +69,7 @@
                         </thead>
                         <tbody class="list">
                             
-                            {% for category in categorys %}
+                            {% for category in products %}
                             <tr>
                                 <th scope="row">
                                     {{category.id}}
@@ -88,7 +89,10 @@
                                 </td><td class="budget">
                                     {{category.stock}}
                                 </td><td class="budget">
-                                    {{category.weight}}
+                                    {{category.weight}}{{category.unit}}
+                                </td>
+                                <td class="budget">
+                                    {{category.category.title}}
                                 </td>
                                 <td class="text-right">
                                     <div class="dropdown">
@@ -96,9 +100,10 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                       </a>
                                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <a class="dropdown-item" id="editbtns" role="button"  data-productid="{{category.id}}"  >Edit</a>
+                                        
+                                        <a class="dropdown-item" role="button" id="deletebtns" data-productid="{{category.id}}" >Delete</a>
+                                        
                                       </div>
                                     </div>
                                   </td>
@@ -196,6 +201,19 @@
                         </div>
                         <div class="form-group">
 
+                            <input type="text" list="categories" name="category" class="form-control form-control-alternative"
+                                placeholder="Product Category" required>
+                        </div>
+                        <datalist id="categories">
+                            
+                            
+                            {% for category in categorys %}
+                            <option value="{{category.title}}">
+                            {% endfor %}
+                                
+                          </datalist>
+                        <div class="form-group">
+
                             <input type="text" name="price" class="form-control form-control-alternative"
                                 placeholder="Product Price" required>
                         </div>
@@ -209,11 +227,135 @@
                             <input type="text" name="weight" class="form-control form-control-alternative"
                                 placeholder="Product weight" required>
                         </div>
+                        <div class="form-group">
+
+                            <input type="text" list="units" name="unit" class="form-control form-control-alternative"
+                                placeholder="Product Unit" required>
+                                <datalist id="units">
+                                    <option value="Kg" >
+                                    <option value="gm" >
+
+
+                                </datalist>
+                        </div>
                         
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="editproducts" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="editform" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="p-4 bg-secondary">
+                        <!-- <div class="form-group">
+
+                            <input type="file" name="imageedit" class="form-control form-control-alternative"
+                                placeholder="Category Name" >
+                        </div> -->
+                        <div class="form-group">
+
+                            <input type="text" id="nameedit" name="nameedit" class="form-control form-control-alternative"
+                                placeholder="Product Name" required>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="text" list="categories" id="categoryedit" name="categoryedit" class="form-control form-control-alternative"
+                                placeholder="Product Category" >
+                        </div>
+                        <datalist id="categories">
+                            
+                            
+                            {% for category in categorys %}
+                            <option value="{{category.title}}">
+                            {% endfor %}
+                                
+                          </datalist>
+                        <div class="form-group">
+
+                            <input type="text" name="priceedit" id="priceedit" class="form-control form-control-alternative"
+                                placeholder="Product Price" required>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="text" name="stockedit" id="stockedit" class="form-control form-control-alternative"
+                                placeholder="Product Stock" required>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="text" name="weightedit" id="weightedit" class="form-control form-control-alternative"
+                                placeholder="Product weight" required>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="text" list="units" name="unitedit" id="unitedit" class="form-control form-control-alternative"
+                                placeholder="Product Unit" required>
+                                <datalist id="units">
+                                    <option value="Kg" >
+                                    <option value="gm" >
+
+
+                                </datalist>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteproducts" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="deleteform" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="p-4 bg-secondary">
+                       
+                        <div class="form-group">
+
+                            <h4>Are You Sure To Delete?</h4>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
             </div>
