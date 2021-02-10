@@ -103,3 +103,75 @@ class DeleteProduct(View):
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
+
+class EditCategory(View):
+    def get(self, request,id):
+        try:
+             
+            
+            
+            qs_json = serializers.serialize('json', Category.objects.filter(id=id))
+            
+            return JsonResponse(qs_json,safe=False)
+            
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+    def post(self,request,id):
+        try:
+            
+            category = Category.objects.get(id=id)
+            category.title = request.POST['editcategory']
+            
+            category.save()
+            return redirect("category")
+
+            
+            
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+
+class DeleteCategory(View):
+    def post(self,request,id):
+        try:
+            category = Category.objects.get(id=id).delete()
+            
+            return redirect("category")
+
+            
+            
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+
+class PendingInCart(View):
+    def get(self, request):
+        try:
+            order = Order.objects.filter(status=False)
+            
+            index = {
+                "orders":order
+            }
+            return render(request,'admin/pending-in-cart.html',index)
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+class PendingCartDetails(View):
+    def get(self,request,id):
+        try:
+            itemdetails = {"itemname":[],"qty":[],"price":[],"total":[]}
+            orderitem = OrderItem.objects.filter(order__id=id)
+            for items in orderitem:
+                itemdetails['itemname'].append(items.product.name)
+                itemdetails['qty'].append(items.qty)
+                itemdetails['price'].append(items.product.price)
+                itemdetails['total'].append(items.subTotal())
+
+            return JsonResponse(itemdetails,safe=False)
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})

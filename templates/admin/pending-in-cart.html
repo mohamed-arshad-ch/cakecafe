@@ -1,5 +1,5 @@
 {% extends 'admin/base.html' %}
-
+{% load static %}
 
 {% block content %}
 <!-- Header -->
@@ -8,12 +8,12 @@
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">Category</h6>
+                    <h6 class="h2 text-white d-inline-block mb-0">Products</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Category</li>
+                            <li class="breadcrumb-item active" aria-current="page">Pending In Cart</li>
                         </ol>
                     </nav>
                 </div>
@@ -42,10 +42,10 @@
                             <h3 class="mb-0">Light table</h3>
                         </div>
                         <div class="col">
-                            <button type="button" class="btn btn-primary mb-4" data-toggle="modal"
-                                data-target="#exampleModal">
-                                Add Category
-                            </button>
+                            <!-- <button type="button" class="btn btn-primary mb-4" data-toggle="modal"
+                                data-target="#addproducts">
+                                Add Product
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -56,38 +56,45 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col" class="sort" data-sort="name">Id</th>
-                                <th scope="col" class="sort" data-sort="budget">Category Name</th>
-                                
+                                <th scope="col" class="sort" data-sort="name">Order Id</th>
+                                <th scope="col" class="sort" data-sort="budget">Customer</th>
+
+
+
+
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody class="list">
-                            
-                            {% for category in categorys %}
+
+                            {% for order in orders %}
                             <tr>
                                 <th scope="row">
-                                    {{category.id}}
+                                    {{order.order_id}}
                                 </th>
+
                                 <td class="budget">
-                                    {{category.title}}
+                                    {{order.customer.first_name}}
                                 </td>
                                 <td class="text-right">
                                     <div class="dropdown">
-                                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                      </a>
-                                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" id="editcategorybtns" role="button" data-categoryid="{{category.id}}" >Edit</a>
-                                        <a class="dropdown-item" id="deletecategorybtns" role="button" data-categoryid="{{category.id}}">Delete</a>
-                                        
-                                      </div>
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" id="fetchorderbtns" role="button"
+                                                data-orderid="{{order.id}}">Order Items</a>
+
+                                            <!-- <a class="dropdown-item" role="button" id="deletebtns" data-productid="{{category.id}}" >Delete</a> -->
+
+                                        </div>
                                     </div>
-                                  </td>
+                                </td>
                             </tr>
                             {% endfor %}
-                                
-                            
+
+
                         </tbody>
                     </table>
                 </div>
@@ -152,101 +159,52 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+
+
+
+
+
+
+
+
+<div class="modal fade" id="fetchordersdetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <div class="p-4 bg-secondary">
-                        <div class="form-group">
+                <div class="table-responsive">
+                    <div>
+                        <table class="table align-items-center">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="name">Order Item</th>
+                                    <th scope="col" class="sort" data-sort="budget">Qty</th>
+                                    <th scope="col" class="sort" data-sort="status">Price</th>
+                                    <th scope="col" class="sort" data-sort="status">Total</th>
+                                    
 
-                            <input type="text" name="category" class="form-control form-control-alternative"
-                                placeholder="Category Name" required>
-                        </div>
-                        
+                                   
+                                </tr>
+                            </thead>
+                            <tbody id="productiorderitems" class="list">
+
+                                
+
+                                
+
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+
+                </div>
             </div>
-           
-        </div>
-    </div>
-</div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="editcategorymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editcategory-form" action="" method="POST">
-                    {% csrf_token %}
-                    <div class="p-4 bg-secondary">
-                        <div class="form-group">
-
-                            <input type="text" name="editcategory" id="editcategory" class="form-control form-control-alternative"
-                                placeholder="Category Name" required>
-                        </div>
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-           
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="deletecategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" id="deletecategoryform" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="p-4 bg-secondary">
-                       
-                        <div class="form-group">
-
-                            <h4>Are You Sure To Delete?</h4>
-                        </div>
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
-            </div>
-           
         </div>
     </div>
 </div>

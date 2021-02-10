@@ -29,7 +29,7 @@ class Products(models.Model):
     price = models.CharField(max_length=100,null=True,blank=True)
     stock = models.CharField(max_length=100,null=True,blank=True)
     unit = models.CharField(max_length=100)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True,blank=True,related_name="category")
+    category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True,blank=True,related_name="category")
     weight = models.CharField(max_length=100,null=True,blank=True)
 
     

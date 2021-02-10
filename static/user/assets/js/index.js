@@ -65,5 +65,71 @@ deletebtns.forEach((dbtns)=>{
             $("#deleteproducts").modal("show");
         
         
-    })
-})
+    });
+});
+
+
+const editcategorybtns = document.querySelectorAll("#editcategorybtns");
+
+editcategorybtns.forEach((mbtns)=>{
+    $(mbtns).click(()=>{
+        axios.get(`editcategory/${mbtns.dataset.categoryid}`).then(res =>{
+            var newData = JSON.parse(res.data)
+            console.log(res.data);
+            $("#editcategory").val(newData[0].fields.title)
+            
+            $("#editcategory-form").attr("action",`editcategory/${mbtns.dataset.categoryid}`)
+            $("#editcategorymodal").modal("show");
+        });
+        
+    });
+});
+
+
+const deletecategorybtns = document.querySelectorAll("#deletecategorybtns");
+
+deletecategorybtns.forEach((dbtns)=>{
+    $(dbtns).click(()=>{
+        
+            $("#deletecategoryform").attr("action",`deletecategory/${dbtns.dataset.categoryid}`)
+            $("#deletecategory").modal("show");
+        
+        
+    });
+});
+
+
+const fetchorderbtns = document.querySelectorAll("#fetchorderbtns");
+
+fetchorderbtns.forEach((dbtns)=>{
+    $(dbtns).click(()=>{
+        
+            axios.get(`pendingcartdetails/${dbtns.dataset.orderid}`).then(res =>{
+                console.log(res.data);
+                for (let index = 0; index < res.data.itemname.length; index++) {
+                    var html = `<tr>
+                    <th scope="row">
+                        ${res.data.itemname[index]}
+                    </th>
+                    <td class="budget">
+                    ${res.data.qty[index]}
+                    </td>
+                    <td class="budget">
+                    ${res.data.price[index]}
+                    </td>
+                    <td class="budget">
+                    ${res.data.total[index]}
+                    </td>
+                   
+                </tr>`;
+
+                $("#productiorderitems").append(html)
+                    
+                }
+                $("#fetchordersdetails").modal("show");
+            })
+            
+        
+        
+    });
+});
