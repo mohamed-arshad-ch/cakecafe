@@ -7,6 +7,8 @@ urlpatterns = [
     path('category',AddCategory.as_view(),name="category"),
     path('product',AddProduct.as_view(),name="product"),
     path('pending-in-cart',PendingInCart.as_view(),name="pendingincart"),
+    path('confirmed-orders',ConfirmOrders.as_view(),name="confirmorders"),
+
 
     path('editproduct/<int:id>',EditProduct.as_view(),name="editproduct"),
     path('editcategory/<int:id>',EditCategory.as_view(),name="editcategory"),
@@ -17,6 +19,11 @@ urlpatterns = [
     path('fetchproduct/<int:id>',FetchProduct.as_view(),name="fetchproduct"),
 
     path('pendingcartdetails/<int:id>',PendingCartDetails.as_view(),name="fetchproduct"),
+    path('fetchorderdetails/<int:id>',FetchOrderDetails.as_view(),name="fetchorderdetails"),
+
+    path('editorderstatus/<int:status>/<int:id>',EditOrderStatus.as_view(),name="fetchorderdetails"),
+
+
 
 
 
