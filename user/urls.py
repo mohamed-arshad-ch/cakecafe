@@ -13,7 +13,11 @@ urlpatterns = [
     path('cart',csrf_exempt(Cart.as_view()),name="cart"),
     path('checkout',csrf_exempt(Checkout.as_view()),name="checkout"),
     path('addpayment',csrf_exempt(AddPayment.as_view()),name="addpayment"),
+    path('myorders',csrf_exempt(ViewMyOrder.as_view()),name="myorders"),
+    path('deleteitemfromcart/<int:id>',csrf_exempt(DeleteItemFromCart.as_view()),name="deleteitemfromcart"),
+
     path('productdetails/addtocart/<int:id>',csrf_exempt(AddToCart.as_view()),name="addtocart"),
+    path('cancelproduct/<int:id>',csrf_exempt(CancelProduct.as_view()),name="cancelproduct"),
 
 
 

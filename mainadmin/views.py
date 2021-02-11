@@ -76,14 +76,30 @@ class EditProduct(View):
         try:
             product = Products.objects.get(id=id)
             category = Category.objects.get(title=request.POST['categoryedit'])
-            product.name = request.POST['nameedit']
-            product.price = request.POST['priceedit']
-            product.stock = request.POST['stockedit']
-            product.weight = request.POST['weightedit']
-            product.unit = request.POST['unitedit']
-            product.category = category
-            product.save()
-            return redirect("product")
+            image = request.FILES.get('imageedit')
+            if image == None:
+
+            
+                product.name = request.POST['nameedit']
+                product.price = request.POST['priceedit']
+                product.stock = request.POST['stockedit']
+                product.weight = request.POST['weightedit']
+                product.unit = request.POST['unitedit']
+                product.category = category
+                product.save()
+                
+                return redirect("product")
+            else:
+                product.image = image
+                product.name = request.POST['nameedit']
+                product.price = request.POST['priceedit']
+                product.stock = request.POST['stockedit']
+                product.weight = request.POST['weightedit']
+                product.unit = request.POST['unitedit']
+                product.category = category
+                product.save()
+                
+                return redirect("product")
 
             
             

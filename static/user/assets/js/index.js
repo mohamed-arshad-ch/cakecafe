@@ -29,6 +29,7 @@ cartButton.forEach((btns) => {
                 cartcount.forEach((newb) => {
                     $(newb).text(res.data.cartcount)
                 })
+                $.notify("Successfully Added To Cart", "success");
             }
 
         })

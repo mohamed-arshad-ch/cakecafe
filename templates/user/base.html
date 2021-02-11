@@ -291,11 +291,19 @@
                                 </div>
                             </div>
                         </li>
+                        
+                        {% if request.user.is_authenticated %}
+                        <li class="user-btn">
+                           <p>{{request.user.first_name}}</p>
+                        </li>
+                        {% else %}
                         <li class="user-btn">
                             <a href="{% url 'userlogin' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Profile"></i>
                             </a>
                         </li>
+                        {% endif %}
+                            
                         <li class="cart-btn">
                             <a href="{% url 'cart' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Bag"></i>
@@ -339,11 +347,17 @@
                                 </div>
                             </div>
                         </li>
+                        {% if request.user.is_authenticated %}
                         <li class="user-btn">
-                            <a href="index-2.html" style="background-image: url(assets/images/icons/icon-bg-1.png);">
+                           <p>{{request.user.first_name}}</p>
+                        </li>
+                        {% else %}
+                        <li class="user-btn">
+                            <a href="{% url 'userlogin' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Profile"></i>
                             </a>
                         </li>
+                        {% endif %}
                         <li class="cart-btn">
                             <a href="{% url 'cart' %}" style="background-image: url(assets/images/icons/icon-bg-1.png);">
                                 <i class="icon-Bag"></i>

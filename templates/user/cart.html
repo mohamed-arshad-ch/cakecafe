@@ -45,7 +45,7 @@
                                     <td colspan="4" class="prod-column">
                                         <div class="column-box">
                                             <div class="remove-btn">
-                                                <i class="fal fa-times"></i>
+                                                <a href="{% url 'deleteitemfromcart' orderitems.id %}"><i class="fal fa-times"></i></a>
                                             </div>
                                             <div class="prod-thumb">
                                                 <a href="cart-2.html"><img src="{% static 'images' %}/{{orderitems.product.image}}" alt=""></a>

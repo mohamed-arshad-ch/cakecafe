@@ -49,7 +49,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)
     product = models.ForeignKey(Products,on_delete=models.CASCADE)
     track = models.IntegerField(default=0)
-    qty = models.IntegerField(default=1)
+    qty = models.IntegerField(default=0)
 
     def subTotal(self):
         total = 0

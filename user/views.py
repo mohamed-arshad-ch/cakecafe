@@ -197,6 +197,8 @@ class AddToCart(View):
                 except Order.DoesNotExist:
                     order = Order.objects.create(customer=request.user)
                     orderitem, created = OrderItem.objects.get_or_create(order=order,product=product)
+                    orderitem.qty = orderitem.qty + 1
+                    orderitem.save()
                     cartcount = Controller.CartCount(self,request.user)
                     return JsonResponse({"message":"Cart Added Successfully","carcount":cartcount})
             else:
@@ -264,6 +266,39 @@ class AddPayment(View):
                 return JsonResponse({"message":"Success Your Payment"})
             except Order.DoesNotExist:
                 return JsonResponse({"message":"Technical Issue"})
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+
+class DeleteItemFromCart(View):
+    def get(self,request,id):
+        try:
+            orderitem = OrderItem.objects.get(id=id).delete()
+            return redirect("cart")
+                
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+
+class ViewMyOrder(View):
+    def get(self,request):
+        try:
+            orderitems = OrderItem.objects.filter(order__customer=request.user)
+            return render(request,"admin/view-my-orders.html",{"orderitems":orderitems})
+                
+        except Exception as e:
+            print(e)
+            return render(request,'user/404.html',{'mainerror':e})
+
+class CancelProduct(View):
+    def get(self,request,id):
+        try:
+            orderitem = OrderItem.objects.get(id=id)
+            orderitem.track = 3
+            orderitem.save()
+            return redirect("myorders")
         except Exception as e:
             print(e)
             return render(request,'user/404.html',{'mainerror':e})
